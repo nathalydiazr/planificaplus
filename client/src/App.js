@@ -30,7 +30,6 @@ import "./App.css";
 
 const ADMIN_EMAILS = ["nathalydiazrosales@gmail.com"];
 const ADMIN_EMAILS_LOWER = ADMIN_EMAILS.map((email) => email.toLowerCase());
-const SUPPORT_EMAIL = "hola@planificaplus.com";
 const SUPPORT_WHATSAPP = "51937698884"; // formato internacionales
 
 /* ---------- Helpers ---------- */
@@ -47,9 +46,6 @@ function monthLabel(key) {
 }
 function formatCurrency(n) {
   return `S/. ${Number(n || 0).toFixed(2)}`;
-}
-function sanitizeText(s) {
-  return (s || "").toLowerCase().replace(/[?¿!.]/g, "").trim();
 }
 
 /* ---------- Assistant Component INTELIGENTE (fecha natural + análisis) ---------- */
@@ -79,11 +75,7 @@ function AssistantFloating({ gastos, ingresos }) {
     return d instanceof Date ? d : new Date(d);
   };
 
-  const isSameDay = (d1, d2) =>
-    d1.getFullYear() === d2.getFullYear() &&
-    d1.getMonth() === d2.getMonth() &&
-    d1.getDate() === d2.getDate();
-
+  
   const startOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
   const endOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23, 59, 59);
 
@@ -358,7 +350,6 @@ function AssistantFloating({ gastos, ingresos }) {
 export default function App() {
   // Auth
   const [user, setUser] = useState(null);
-  const [nombreGuardado, setNombreGuardado] = useState("");
   const [email, setEmail] = useState(() => localStorage.getItem("planifica_email") || "");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(() => localStorage.getItem("planifica_remember") === "1");
@@ -455,7 +446,6 @@ export default function App() {
   const [formVoucher, setFormVoucher] = useState(null); // File
   const [formDescripcion, setFormDescripcion] = useState("");
 
-  const [expanded, setExpanded] = useState({});
 
   // categories sets
   const gastoCats = ["Comida", "Transporte", "Entretenimiento", "Hogar", "Cuidado personal", "Otros"];
@@ -857,16 +847,7 @@ const handleCancelProfileEdit = () => {
     const labels = Object.keys(catTotals);
     const data = labels.map((l) => catTotals[l]);
     return { labels, datasets: [{ data, backgroundColor: ["#ef4444", "#fb7185", "#f97316", "#f59e0b", "#fbbf24"].slice(0, labels.length) }] };
-  }, [totalsByMonth, records]);
-
-  const toggleExpand = (monthKey, type) => {
-    setExpanded((s) => {
-      const copy = { ...s };
-      copy[monthKey] = { ...(copy[monthKey] || {}) };
-      copy[monthKey][type] = !copy[monthKey][type];
-      return copy;
-    });
-  };
+  }, [totalsByMonth]);
 
   // deleteRecord updated to also attempt Firestore deletion
   const deleteRecord = async (id) => {
@@ -1894,6 +1875,9 @@ const handleCancelProfileEdit = () => {
     </div>
   );
 }
+
+
+
 
 
 
