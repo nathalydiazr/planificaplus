@@ -1,0 +1,40 @@
+      setLoginError("No se pudo iniciar sesión con Google.");
+    }
+  };
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    setUser(null);
+    setEmail(rememberMe ? localStorage.getItem("planifica_email") || "" : "");
+    setPassword("");
+    setUserMeta({ isPaid: false, status: "" });
+    setProofMessage("");
+    setShowUploadModal(false);
+    setProofFile(null);
+    setProofNote("");
+    // mantenemos rememberMe tal como lo dejó el usuario
+  };
+
+  // Guardar record -> Firestore write relies on snapshot to update UI
+  const handleSaveRecord = async (e) => {
+    e?.preventDefault();
+    if (savingRecord) return;
+    if (!user) {
+      showMessage("Inicia sesión antes de registrar.", 2400);
+      return;
+    }
+    if (!formTipo || !formCategoria || !formMonto) {
+      showMessage("Completa tipo, categoria y monto", 2400);
+      return;
+    }
+
+    const docBody = {
+      uid: user.uid,
+      tipo: formTipo,
+      categoria: formCategoria,
+      monto: Number(formMonto),
+      fecha: new Date().toISOString(),
+      descripcion: formDescripcion || "",
+      voucher: formVoucher ? { name: formVoucher.name, url: URL.createObjectURL(formVoucher) } : null,
+    };
+
