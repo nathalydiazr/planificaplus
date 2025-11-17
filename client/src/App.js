@@ -1688,7 +1688,14 @@ const handleCancelProfileEdit = () => {
                                     </>
                                   ) : (
                                     <>
-                                      <button onClick={() => startEdit(it)} style={{ background: "#f1f5f9", borderRadius: 6, padding: "6px 8px" }}>Editar</button>
+                                      <button
+                                        type="button"
+                                        onClick={() => startEdit(it)}
+                                        onKeyDown={(e) => e.preventDefault()}
+                                        style={{ background: "#16a34a", color: "#fff", borderRadius: 6, padding: "6px 8px" }}
+                                      >
+                                        Editar
+                                      </button>
                                       <button onClick={() => deleteRecord(it.id)} style={{ background: "#ef4444", color: "#fff", borderRadius: 6, padding: "6px 8px" }}>Eliminar</button>
                                     </>
                                   )}
@@ -1756,7 +1763,14 @@ const handleCancelProfileEdit = () => {
                                     </>
                                   ) : (
                                     <>
-                                      <button onClick={() => startEdit(it)} style={{ background: "#f1f5f9", borderRadius: 6, padding: "6px 8px" }}>Editar</button>
+                                      <button
+                                        type="button"
+                                        onClick={() => startEdit(it)}
+                                        onKeyDown={(e) => e.preventDefault()}
+                                        style={{ background: "#16a34a", color: "#fff", borderRadius: 6, padding: "6px 8px" }}
+                                      >
+                                        Editar
+                                      </button>
                                       <button onClick={() => deleteRecord(it.id)} style={{ background: "#ef4444", color: "#fff", borderRadius: 6, padding: "6px 8px" }}>Eliminar</button>
                                     </>
                                   )}
@@ -1875,6 +1889,7 @@ const handleCancelProfileEdit = () => {
     </div>
   );
 }
+
 
 
 

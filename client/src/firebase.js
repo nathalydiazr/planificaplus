@@ -4,13 +4,20 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB96uWtfCdh00_jkCYmzMsPG8U-ac1MFLU",
-  authDomain: "planificaplus-a75f2.firebaseapp.com",
-  projectId: "planificaplus-a75f2",
-  storageBucket: "planificaplus-a75f2.firebasestorage.app",
-  messagingSenderId: "638670630086",
-  appId: "1:638670630086:web:4782917f285847161ffbc7"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
+
+if (Object.values(firebaseConfig).some((value) => !value)) {
+  // Fail fast with a clear error when env vars are missing
+  throw new Error(
+    "Missing Firebase environment configuration. Check your REACT_APP_FIREBASE_* variables."
+  );
+}
 
 const app = initializeApp(firebaseConfig);
 
