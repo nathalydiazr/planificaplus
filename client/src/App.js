@@ -25,6 +25,7 @@ import {
   browserSessionPersistence,
   onAuthStateChanged,
   signInWithPopup,
+  createUserWithEmailAndPassword,
 } from "firebase/auth";
 import "./App.css";
 
@@ -354,6 +355,14 @@ export default function App() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(() => localStorage.getItem("planifica_remember") === "1");
   const [loginError, setLoginError] = useState("");
+  const [registerMode, setRegisterMode] = useState(false);
+  const [registerName, setRegisterName] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
+  const [registerError, setRegisterError] = useState("");
+  const [registerMessage, setRegisterMessage] = useState("");
+  const [registerLoading, setRegisterLoading] = useState(false);
+  const [showForgotHelp, setShowForgotHelp] = useState(false);
 
   // Post-login UX
   const [showSplash, setShowSplash] = useState(false);
@@ -717,6 +726,44 @@ export default function App() {
     // mantenemos rememberMe tal como lo dejÃ³ el usuario
   };
 
+const handleRegisterToggle = () => {
+  setRegisterMode((prev) => !prev);
+  if (!registerMode) {
+    setRegisterName("");
+    setRegisterEmail("");
+    setRegisterPassword("");
+  }
+  setRegisterError("");
+  setRegisterMessage("");
+};
+
+const handleRegister = async (e) => {
+  e?.preventDefault();
+  if (!registerName.trim() || !registerEmail.trim() || !registerPassword.trim()) {
+    setRegisterError("Completa tu nombre, correo real y contraseÃ±a.");
+    return;
+  }
+  setRegisterLoading(true);
+  setRegisterError("");
+  setRegisterMessage("");
+  try {
+    const cred = await createUserWithEmailAndPassword(auth, registerEmail.trim(), registerPassword);
+    const createdUser = cred.user;
+    localStorage.setItem(`planifica_name_${createdUser.uid}`, registerName.trim());
+    setName(registerName.trim());
+    setNameCommitted(true);
+    setEmail(registerEmail.trim());
+    setRegisterMessage("Cuenta creada. Revisa la secciÃ³n de pagos para activar tu suscripciÃ³n.");
+    setRegisterMode(false);
+    setRegisterName("");
+    setRegisterPassword("");
+  } catch (err) {
+    setRegisterError(err.message || "No se pudo crear la cuenta.");
+  } finally {
+    setRegisterLoading(false);
+  }
+};
+
 const handleSaveProfileName = () => {
   if (!user) return;
   const trimmed = (tempProfileName || "").trim();
@@ -894,7 +941,7 @@ const handleCancelProfileEdit = () => {
 
   /* ---------- Pantallas por estado (login -> splash -> nombre -> saludo/acciones) ---------- */
 
-  // 1) LOGIN
+    // 1) LOGIN
   if (!user) {
     return (
       <div className="container" style={{ paddingBottom: 140 }}>
@@ -920,7 +967,7 @@ const handleCancelProfileEdit = () => {
         >
           <input
             type="email"
-            placeholder="Correo electrÃ³nico"
+            placeholder="Correo electrónico"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -928,7 +975,7 @@ const handleCancelProfileEdit = () => {
           />
           <input
             type="password"
-            placeholder="ContraseÃ±a"
+            placeholder="Contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -941,11 +988,11 @@ const handleCancelProfileEdit = () => {
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
             />
-            RecuÃ©rdame
+            Recuérdame
           </label>
 
           {loginError && <div style={{ color: "red" }}>{loginError}</div>}
-          <button type="submit">Iniciar sesiÃ³n</button>
+          <button type="submit">Iniciar sesión</button>
           <button
             type="button"
             onClick={handleGoogleLogin}
@@ -953,12 +1000,84 @@ const handleCancelProfileEdit = () => {
           >
             Continuar con Google
           </button>
+          <button
+            type="button"
+            onClick={() => setShowForgotHelp((prev) => !prev)}
+            style={{ background: "#f8fafc", color: "#0f172a" }}
+          >
+            ¿Olvidaste tu contraseña?
+          </button>
+          {showForgotHelp && (
+            <div style={{ fontSize: 13, color: "#475569" }}>
+              Escríbenos por WhatsApp al{" "}
+              <a href={supportWhatsAppLink} style={{ color: "#1d4ed8", fontWeight: 600 }} target="_blank" rel="noreferrer">
+                +51 937 698 884
+              </a>{" "}
+              y te ayudaremos a restablecerla.
+            </div>
+          )}
         </form>
+        <div style={{ marginTop: 12, fontSize: 14, color: "#475569" }}>
+          ¿No tienes una cuenta?{" "}
+          <button
+            type="button"
+            onClick={handleRegisterToggle}
+            style={{ color: "#1d4ed8", textDecoration: "underline", background: "transparent" }}
+          >
+            Regístrate aquí
+          </button>
+        </div>
+        {registerMode && (
+          <form
+            onSubmit={handleRegister}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+              background: "white",
+              padding: "1.5rem",
+              borderRadius: "12px",
+              boxShadow: "0 8px 20px rgba(0,0,0,0.05)",
+              width: "100%",
+              maxWidth: "420px",
+              marginTop: "1.5rem",
+            }}
+          >
+            <h3 style={{ marginBottom: 8 }}>Crear cuenta</h3>
+            <input
+              type="text"
+              value={registerName}
+              onChange={(e) => setRegisterName(e.target.value)}
+              placeholder="Nombre completo"
+              style={{ width: "100%", padding: 10, borderRadius: 8, border: "1px solid #e2e8f0" }}
+            />
+            <input
+              type="email"
+              value={registerEmail}
+              onChange={(e) => setRegisterEmail(e.target.value)}
+              placeholder="Correo electrónico real"
+              style={{ width: "100%", padding: 10, borderRadius: 8, border: "1px solid #e2e8f0" }}
+            />
+            <input
+              type="password"
+              value={registerPassword}
+              onChange={(e) => setRegisterPassword(e.target.value)}
+              placeholder="Contraseña"
+              style={{ width: "100%", padding: 10, borderRadius: 8, border: "1px solid #e2e8f0" }}
+            />
+            <div style={{ fontSize: 13, color: "#475569" }}>
+              Usa un correo real y luego activa tu suscripción para ingresar.
+            </div>
+            {registerError && <div style={{ color: "#ef4444", fontSize: 14 }}>{registerError}</div>}
+            {registerMessage && <div style={{ color: "#16a34a", fontSize: 14 }}>{registerMessage}</div>}
+            <button type="submit" disabled={registerLoading}>
+              {registerLoading ? "Creando..." : "Registrarme"}
+            </button>
+          </form>
+        )}
       </div>
     );
-  }
-
-  // 2) SPLASH (3s)
+  }// 2) SPLASH (3s)
   if (showSplash) {
     return (
       <div className="container" style={{ paddingBottom: 140 }}>
@@ -1889,6 +2008,11 @@ const handleCancelProfileEdit = () => {
     </div>
   );
 }
+
+
+
+
+
 
 
 
