@@ -1,4 +1,4 @@
-// src/App.js
+﻿// src/App.js
 import { db, auth, googleProvider, storage } from "./firebase";
 import {
   collection,
@@ -49,7 +49,7 @@ function formatCurrency(n) {
   return `S/. ${Number(n || 0).toFixed(2)}`;
 }
 
-/* ---------- Assistant Component INTELIGENTE (fecha natural + anÃƒÂ¡lisis) ---------- */
+/* ---------- Assistant Component INTELIGENTE (fecha natural + anÃƒÆ’Ã‚Â¡lisis) ---------- */
 function AssistantFloating({ gastos, ingresos }) {
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState("");
@@ -154,13 +154,13 @@ function AssistantFloating({ gastos, ingresos }) {
       return { start: first, end: last, label: "el mes pasado" };
     }
 
-    // ÃƒÅ¡ltimos X dÃƒÂ­as
+    // ÃƒÆ’Ã…Â¡ltimos X dÃƒÆ’Ã‚Â­as
     const matchLast = t.match(/ultimos (\d+) dias/);
     if (matchLast) {
       const n = Number(matchLast[1]);
       const s = new Date(today);
       s.setDate(s.getDate() - n + 1);
-      return { start: s, end: endOfDay(today), label: `los ÃƒÂºltimos ${n} dÃƒÂ­as` };
+      return { start: s, end: endOfDay(today), label: `los ÃƒÆ’Ã‚Âºltimos ${n} dÃƒÆ’Ã‚Â­as` };
     }
 
     // Rangos "entre el 5 y el 20"
@@ -177,7 +177,7 @@ function AssistantFloating({ gastos, ingresos }) {
       };
     }
 
-    // Si no se detectÃƒÂ³, retornar null
+    // Si no se detectÃƒÆ’Ã‚Â³, retornar null
     return null;
   };
 
@@ -198,14 +198,14 @@ function AssistantFloating({ gastos, ingresos }) {
   const handleAsk = (input) => {
     const text = normalize(input || q);
     if (!text.trim()) {
-      setAnswer("Escribe una pregunta como: 'Ã‚Â¿CuÃƒÂ¡nto gastÃƒÂ© esta semana?'");
+      setAnswer("Escribe una pregunta como: 'Ãƒâ€šÃ‚Â¿CuÃƒÆ’Ã‚Â¡nto gastÃƒÆ’Ã‚Â© esta semana?'");
       return;
     }
 
     // 1. Detectar rango de tiempo
     const range = parseTimeRange(text);
     if (!range) {
-      setAnswer("No entendÃƒÂ­ el perÃƒÂ­odo. Intenta: hoy, ayer, esta semana, este mes, o 'entre el 5 y el 20'.");
+      setAnswer("No entendÃƒÆ’Ã‚Â­ el perÃƒÆ’Ã‚Â­odo. Intenta: hoy, ayer, esta semana, este mes, o 'entre el 5 y el 20'.");
       return;
     }
 
@@ -220,7 +220,7 @@ function AssistantFloating({ gastos, ingresos }) {
     const totalI = sum(i);
     const balance = totalI - totalG;
 
-    // 3. CategorÃƒÂ­as principales
+    // 3. CategorÃƒÆ’Ã‚Â­as principales
     const catTotals = {};
     g.forEach((x) => (catTotals[x.categoria] = (catTotals[x.categoria] || 0) + Number(x.monto)));
     const topCat =
@@ -232,25 +232,25 @@ function AssistantFloating({ gastos, ingresos }) {
 
     let alert = "";
     if (totalG > avgGastoHistorico * 1.4) {
-      alert = "Ã¢Å¡Â Ã¯Â¸Â EstÃƒÂ¡s gastando mÃƒÂ¡s de lo habitual.";
+      alert = "ÃƒÂ¢Ã…Â¡Ã‚Â ÃƒÂ¯Ã‚Â¸Ã‚Â EstÃƒÆ’Ã‚Â¡s gastando mÃƒÆ’Ã‚Â¡s de lo habitual.";
     }
 
     // 5. Respuesta
-    let msg = `Ã°Å¸â€œâ€¦ PerÃƒÂ­odo analizado: **${label}**\n\n`;
+    let msg = `ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã¢â‚¬Â¦ PerÃƒÆ’Ã‚Â­odo analizado: **${label}**\n\n`;
 
-    msg += `Ã°Å¸â€™Â¸ **Gastos:** S/. ${totalG.toFixed(2)}\n`;
-    msg += `Ã°Å¸â€™Â° **Ingresos:** S/. ${totalI.toFixed(2)}\n`;
-    msg += `Ã°Å¸â€œÅ  **Balance:** ${balance >= 0 ? "positivo" : "negativo"} (S/. ${balance.toFixed(2)})\n`;
+    msg += `ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¸ **Gastos:** S/. ${totalG.toFixed(2)}\n`;
+    msg += `ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â° **Ingresos:** S/. ${totalI.toFixed(2)}\n`;
+    msg += `ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â  **Balance:** ${balance >= 0 ? "positivo" : "negativo"} (S/. ${balance.toFixed(2)})\n`;
 
     if (topCat) {
-      msg += `\nÃ°Å¸ÂÂ·Ã¯Â¸Â CategorÃƒÂ­a con mÃƒÂ¡s gasto: **${topCat[0]}** (S/. ${topCat[1].toFixed(2)})\n`;
+      msg += `\nÃƒÂ°Ã…Â¸Ã‚ÂÃ‚Â·ÃƒÂ¯Ã‚Â¸Ã‚Â CategorÃƒÆ’Ã‚Â­a con mÃƒÆ’Ã‚Â¡s gasto: **${topCat[0]}** (S/. ${topCat[1].toFixed(2)})\n`;
     }
 
     if (alert) msg += `\n${alert}\n`;
 
     // Si no hay datos
     if (g.length === 0 && i.length === 0) {
-      msg += "\nNo se registraron movimientos en este perÃƒÂ­odo.";
+      msg += "\nNo se registraron movimientos en este perÃƒÆ’Ã‚Â­odo.";
     }
 
     setAnswer(msg);
@@ -279,7 +279,7 @@ function AssistantFloating({ gastos, ingresos }) {
               fontSize: 20,
             }}
           >
-            Ã°Å¸â€™Â¬
+            ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã‚Â¬
           </button>
         )}
 
@@ -318,14 +318,14 @@ function AssistantFloating({ gastos, ingresos }) {
       lineHeight: "20px",
     }}
   >
-    Ã¢Å“â€¢
+    ÃƒÂ¢Ã…â€œÃ¢â‚¬Â¢
   </button>
 </div>
 
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
-              placeholder='Ej: "Ã‚Â¿CuÃƒÂ¡nto gastÃƒÂ© esta semana?"'
+              placeholder='Ej: "Ãƒâ€šÃ‚Â¿CuÃƒÆ’Ã‚Â¡nto gastÃƒÆ’Ã‚Â© esta semana?"'
               style={{ width: "100%", padding: "8px 10px", borderRadius: 8, border: "1px solid #e6edf3", marginBottom: 8 }}
             />
 
@@ -337,7 +337,7 @@ function AssistantFloating({ gastos, ingresos }) {
             </button>
 
             <div style={{ marginTop: 10, minHeight: 60, color: "#0f172a", fontSize: 14, whiteSpace: "pre-wrap" }}>
-              {answer || <span style={{ color: "#64748b" }}>AquÃƒÂ­ verÃƒÂ¡s las respuestas</span>}
+              {answer || <span style={{ color: "#64748b" }}>AquÃƒÆ’Ã‚Â­ verÃƒÆ’Ã‚Â¡s las respuestas</span>}
             </div>
           </div>
         )}
@@ -460,7 +460,7 @@ export default function App() {
   const gastoCats = ["Comida", "Transporte", "Entretenimiento", "Hogar", "Cuidado personal", "Otros"];
   const ingresoCats = ["Sueldo", "Inversiones", "Alquiler", "Freelance", "Otros"];
 
-  // File input ref (para botÃƒÂ³n Adjuntar funcional)
+  // File input ref (para botÃƒÆ’Ã‚Â³n Adjuntar funcional)
   const voucherInputRef = useRef(null);
 
   const resetFormFields = () => {
@@ -543,7 +543,7 @@ export default function App() {
       setUserMeta((prev) => ({ ...prev, status: prev.status || "pending" }));
     } catch (err) {
       console.error("Error enviando comprobante:", err);
-      setProofMessage("No se pudo enviar el comprobante. IntÃƒÂ©ntalo nuevamente.");
+      setProofMessage("No se pudo enviar el comprobante. IntÃƒÆ’Ã‚Â©ntalo nuevamente.");
     } finally {
       setProofSubmitting(false);
       setShowUploadModal(false);
@@ -576,7 +576,7 @@ export default function App() {
           reviewerUid: user.uid,
         });
         await batch.commit();
-        showMessage("SuscripciÃƒÂ³n activada");
+        showMessage("SuscripciÃƒÆ’Ã‚Â³n activada");
       } else {
         await updateDoc(proofRef, {
           status: "rejected",
@@ -604,7 +604,7 @@ export default function App() {
     window.open("https://www.mercadopago.com.pe/checkout", "_blank", "noopener");
   };
 
-  // Persistencia de sesiÃƒÂ³n: rehidratar (si el usuario ya estaba logueado)
+  // Persistencia de sesiÃƒÆ’Ã‚Â³n: rehidratar (si el usuario ya estaba logueado)
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (u) => {
       if (u) {
@@ -672,7 +672,7 @@ export default function App() {
   const handleLogin = async (e) => {
     e?.preventDefault();
     try {
-      // Configurar persistencia segÃƒÂºn "RecuÃƒÂ©rdame"
+      // Configurar persistencia segÃƒÆ’Ã‚Âºn "RecuÃƒÆ’Ã‚Â©rdame"
       await setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
 
       const u = await signInWithEmailAndPassword(auth, email, password);
@@ -692,9 +692,9 @@ export default function App() {
       // Mostrar splash 3s
       setShowSplash(true);
       setTimeout(() => setShowSplash(false), 3000);
-      // no tocamos name/nameCommitted aquÃƒÂ­ (puede que ya lo tengan)
+      // no tocamos name/nameCommitted aquÃƒÆ’Ã‚Â­ (puede que ya lo tengan)
     } catch (err) {
-      setLoginError("Usuario o contraseÃƒÂ±a incorrectos");
+      setLoginError("Usuario o contraseÃƒÆ’Ã‚Â±a incorrectos");
     }
   };
 
@@ -709,7 +709,7 @@ export default function App() {
       setTimeout(() => setShowSplash(false), 3000);
     } catch (err) {
       console.error("Google login error:", err);
-      setLoginError("No se pudo iniciar sesiÃƒÂ³n con Google.");
+      setLoginError("No se pudo iniciar sesiÃƒÆ’Ã‚Â³n con Google.");
     }
   };
 
@@ -723,7 +723,7 @@ export default function App() {
     setShowUploadModal(false);
     setProofFile(null);
     setProofNote("");
-    // mantenemos rememberMe tal como lo dejÃƒÂ³ el usuario
+    // mantenemos rememberMe tal como lo dejÃƒÆ’Ã‚Â³ el usuario
   };
 
 const handleRegisterToggle = () => {
@@ -740,7 +740,7 @@ const handleRegisterToggle = () => {
 const handleRegister = async (e) => {
   e?.preventDefault();
   if (!registerName.trim() || !registerEmail.trim() || !registerPassword.trim()) {
-    setRegisterError("Completa tu nombre, correo real y contraseÃƒÂ±a.");
+    setRegisterError("Completa tu nombre, correo real y contraseÃƒÆ’Ã‚Â±a.");
     return;
   }
   setRegisterLoading(true);
@@ -753,7 +753,7 @@ const handleRegister = async (e) => {
     setName(registerName.trim());
     setNameCommitted(true);
     setEmail(registerEmail.trim());
-    setRegisterMessage("Cuenta creada. Revisa la secciÃƒÂ³n de pagos para activar tu suscripciÃƒÂ³n.");
+    setRegisterMessage("Cuenta creada. Revisa la secciÃƒÆ’Ã‚Â³n de pagos para activar tu suscripciÃƒÆ’Ã‚Â³n.");
     setRegisterMode(false);
     setRegisterName("");
     setRegisterPassword("");
@@ -789,7 +789,7 @@ const handleCancelProfileEdit = () => {
     e?.preventDefault();
     if (savingRecord) return;
     if (!user) {
-      showMessage("Inicia sesiÃƒÂ³n antes de registrar.", 2400);
+      showMessage("Inicia sesiÃƒÆ’Ã‚Â³n antes de registrar.", 2400);
       return;
     }
     if (!formTipo || !formCategoria || !formMonto) {
@@ -814,7 +814,7 @@ const handleCancelProfileEdit = () => {
       showMessage("Registro agregado");
     } catch (err) {
       console.error("Error guardando en Firestore:", err);
-      showMessage("No se pudo guardar el registro. IntÃƒÂ©ntalo nuevamente.", 2800);
+      showMessage("No se pudo guardar el registro. IntÃƒÆ’Ã‚Â©ntalo nuevamente.", 2800);
     } finally {
       setSavingRecord(false);
     }
@@ -902,7 +902,7 @@ const handleCancelProfileEdit = () => {
     try {
       await deleteDoc(doc(db, "records", id));
     } catch (err) {
-      // ignore if firestore doc not found Ã¢â‚¬â€ local still updated
+      // ignore if firestore doc not found ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â local still updated
       // console.warn(err);
     }
   };
@@ -967,7 +967,7 @@ const handleCancelProfileEdit = () => {
         >
           <input
             type="email"
-            placeholder="Correo electrÃ³nico"
+            placeholder="Correo electrÃƒÂ³nico"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -975,7 +975,7 @@ const handleCancelProfileEdit = () => {
           />
           <input
             type="password"
-            placeholder="ContraseÃ±a"
+            placeholder="ContraseÃƒÂ±a"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -988,11 +988,11 @@ const handleCancelProfileEdit = () => {
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
             />
-            RecuÃ©rdame
+            RecuÃƒÂ©rdame
           </label>
 
           {loginError && <div style={{ color: "red" }}>{loginError}</div>}
-          <button type="submit">Iniciar sesiÃ³n</button>
+          <button type="submit">Iniciar sesiÃƒÂ³n</button>
           <button
             type="button"
             onClick={handleGoogleLogin}
@@ -1005,11 +1005,11 @@ const handleCancelProfileEdit = () => {
             onClick={() => setShowForgotHelp((prev) => !prev)}
             style={{ background: "#f8fafc", color: "#0f172a" }}
           >
-            Â¿Olvidaste tu contraseÃ±a?
+            Ã‚Â¿Olvidaste tu contraseÃƒÂ±a?
           </button>
           {showForgotHelp && (
             <div style={{ fontSize: 13, color: "#475569" }}>
-              EscrÃ­benos por WhatsApp al{" "}
+              EscrÃƒÂ­benos por WhatsApp al{" "}
               <a href={supportWhatsAppLink} style={{ color: "#1d4ed8", fontWeight: 600 }} target="_blank" rel="noreferrer">
                 +51 937 698 884
               </a>{" "}
@@ -1018,13 +1018,13 @@ const handleCancelProfileEdit = () => {
           )}
         </form>
         <div style={{ marginTop: 12, fontSize: 14, color: "#475569" }}>
-          Â¿No tienes una cuenta?{" "}
+          Ã‚Â¿No tienes una cuenta?{" "}
           <button
             type="button"
             onClick={handleRegisterToggle}
             style={{ color: "#1d4ed8", textDecoration: "underline", background: "transparent" }}
           >
-            RegÃ­strate aquÃ­
+            RegÃƒÂ­strate aquÃƒÂ­
           </button>
         </div>
         {registerMode && (
@@ -1055,18 +1055,18 @@ const handleCancelProfileEdit = () => {
               type="email"
               value={registerEmail}
               onChange={(e) => setRegisterEmail(e.target.value)}
-              placeholder="Correo electrÃ³nico real"
+              placeholder="Correo electrÃƒÂ³nico real"
               style={{ width: "100%", padding: 10, borderRadius: 8, border: "1px solid #e2e8f0" }}
             />
             <input
               type="password"
               value={registerPassword}
               onChange={(e) => setRegisterPassword(e.target.value)}
-              placeholder="ContraseÃ±a"
+              placeholder="ContraseÃƒÂ±a"
               style={{ width: "100%", padding: 10, borderRadius: 8, border: "1px solid #e2e8f0" }}
             />
             <div style={{ fontSize: 13, color: "#475569" }}>
-              Usa un correo real y luego activa tu suscripciÃ³n para ingresar.
+              Usa un correo real y luego activa tu suscripciÃƒÂ³n para ingresar.
             </div>
             {registerError && <div style={{ color: "#ef4444", fontSize: 14 }}>{registerError}</div>}
             {registerMessage && <div style={{ color: "#16a34a", fontSize: 14 }}>{registerMessage}</div>}
@@ -1093,7 +1093,7 @@ const handleCancelProfileEdit = () => {
             animation: "fadeIn 0.35s ease",
           }}
         >
-          <div style={{ fontSize: 20, fontWeight: 700, color: "#0f172a" }}>Recuerda que eres lo que planificas Ã°Å¸â€™Å¡</div>
+          <div style={{ fontSize: 20, fontWeight: 700, color: "#0f172a" }}>Recuerda que eres lo que planificas ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã…Â¡</div>
         </div>
       </div>
     );
@@ -1115,7 +1115,7 @@ const handleCancelProfileEdit = () => {
             textAlign: "center",
           }}
         >
-          Cargando estado de suscripciÃƒÂ³n...
+          Cargando estado de suscripciÃƒÆ’Ã‚Â³n...
         </div>
       </div>
     );
@@ -1134,7 +1134,7 @@ const handleCancelProfileEdit = () => {
             maxWidth: 560,
           }}
         >
-          <h2>Activa tu suscripciÃƒÂ³n</h2>
+          <h2>Activa tu suscripciÃƒÆ’Ã‚Â³n</h2>
           <p style={{ marginTop: 8, color: "#475569" }}>
             Accede a tus reportes pagando con tarjeta (Mercado Pago) o con transferencia, Yape/Plin o efectivo.
           </p>
@@ -1142,7 +1142,7 @@ const handleCancelProfileEdit = () => {
           <div style={{ marginTop: 16, padding: 12, border: "1px solid #e2e8f0", borderRadius: 10 }}>
             <h3 style={{ marginBottom: 6 }}>Pago con tarjeta</h3>
             <p style={{ fontSize: 14, color: "#475569" }}>
-              Usa Mercado Pago para pagar con tarjeta de crÃƒÂ©dito o dÃƒÂ©bito.
+              Usa Mercado Pago para pagar con tarjeta de crÃƒÆ’Ã‚Â©dito o dÃƒÆ’Ã‚Â©bito.
             </p>
             <button type="button" onClick={handleCheckout} style={{ marginTop: 8, width: "100%" }}>
               Pagar con Mercado Pago
@@ -1157,7 +1157,7 @@ const handleCancelProfileEdit = () => {
               <li>Oficina: Av. Siempre Viva 123, Lima</li>
             </ul>
             <p style={{ marginTop: 8, fontSize: 14, color: "#64748b" }}>
-              EnvÃƒÂ­anos el comprobante para activar tu cuenta.
+              EnvÃƒÆ’Ã‚Â­anos el comprobante para activar tu cuenta.
             </p>
             <button
               type="button"
@@ -1183,7 +1183,7 @@ const handleCancelProfileEdit = () => {
             onClick={handleLogout}
             style={{ marginTop: 16, background: "#f1f5f9", color: "#0f172a" }}
           >
-            Cerrar sesiÃƒÂ³n
+            Cerrar sesiÃƒÆ’Ã‚Â³n
           </button>
         </div>
 
@@ -1266,7 +1266,7 @@ const handleCancelProfileEdit = () => {
             textAlign: "center",
           }}
         >
-          Cargando tu estado de suscripciÃƒÂ³n...
+          Cargando tu estado de suscripciÃƒÆ’Ã‚Â³n...
         </div>
       </div>
     );
@@ -1285,7 +1285,7 @@ const handleCancelProfileEdit = () => {
             maxWidth: 520,
           }}
         >
-          <h2>Activa tu suscripciÃƒÂ³n</h2>
+          <h2>Activa tu suscripciÃƒÆ’Ã‚Â³n</h2>
           <p style={{ marginTop: 8, color: "#475569" }}>
             Accede a los reportes y registros en tiempo real realizando tu pago por transferencia, Yape/Plin o efectivo.
           </p>
@@ -1298,7 +1298,7 @@ const handleCancelProfileEdit = () => {
               <li>Oficina: Av. Siempre Viva 123, Lima</li>
             </ul>
             <p style={{ marginTop: 8, fontSize: 14, color: "#64748b" }}>
-              EnvÃƒÂ­anos el comprobante desde el botÃƒÂ³n inferior para validar tu suscripciÃƒÂ³n.
+              EnvÃƒÆ’Ã‚Â­anos el comprobante desde el botÃƒÆ’Ã‚Â³n inferior para validar tu suscripciÃƒÆ’Ã‚Â³n.
             </p>
             <button
               type="button"
@@ -1324,7 +1324,7 @@ const handleCancelProfileEdit = () => {
             onClick={handleLogout}
             style={{ marginTop: 16, background: "#e2e8f0", color: "#0f172a" }}
           >
-            Cerrar sesiÃƒÂ³n
+            Cerrar sesiÃƒÆ’Ã‚Â³n
           </button>
         </div>
 
@@ -1384,7 +1384,7 @@ const handleCancelProfileEdit = () => {
     );
   }
 
-  // 3) PEDIR NOMBRE (si no existe aÃƒÂºn)
+  // 3) PEDIR NOMBRE (si no existe aÃƒÆ’Ã‚Âºn)
   if (!nameCommitted) {
     return (
       <div className="container" style={{ paddingBottom: 140 }}>
@@ -1405,7 +1405,7 @@ const handleCancelProfileEdit = () => {
           }}
         >
           <label style={{ display: "block", marginBottom: 8, color: "#475569", fontSize: 14 }}>
-            Ã‚Â¿CuÃƒÂ¡l es tu nombre?
+            Ãƒâ€šÃ‚Â¿CuÃƒÆ’Ã‚Â¡l es tu nombre?
           </label>
           <input
             type="text"
@@ -1531,7 +1531,7 @@ const handleCancelProfileEdit = () => {
         }}
       >
         <div style={{ fontSize: 18, fontWeight: 700, marginBottom: 8 }}>
-          Ã‚Â¡Hola, {name || "usuario"}! Ã‚Â¿QuÃƒÂ© te gustarÃƒÂ­a hacer?
+          Ãƒâ€šÃ‚Â¡Hola, {name || "usuario"}! Ãƒâ€šÃ‚Â¿QuÃƒÆ’Ã‚Â© te gustarÃƒÆ’Ã‚Â­a hacer?
         </div>
 
         <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
@@ -1542,7 +1542,7 @@ const handleCancelProfileEdit = () => {
             Estado de resultados
           </button>
           <button onClick={() => setTab("analisis")} style={{ padding: "10px 14px", borderRadius: 10 }}>
-            Mira tus grÃƒÂ¡ficos
+            Mira tus grÃƒÆ’Ã‚Â¡ficos
           </button>
           <div style={{ marginLeft: "auto", display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
             {user && (
@@ -1563,7 +1563,7 @@ const handleCancelProfileEdit = () => {
               </button>
             )}
             <button onClick={handleLogout} style={{ background: "#ef4444" }}>
-              Cerrar sesiÃƒÂ³n
+              Cerrar sesiÃƒÆ’Ã‚Â³n
             </button>
           </div>
         </div>
@@ -1626,7 +1626,7 @@ const handleCancelProfileEdit = () => {
               </div>
               <div style={{ color: "#475569" }}>
                 <div style={{ fontWeight: 600 }}>Soporte</div>
-                <div style={{ marginTop: 6 }}>Ã‚Â¿Necesitas ayuda? EscrÃƒÂ­benos por WhatsApp.</div>
+                <div style={{ marginTop: 6 }}>Ãƒâ€šÃ‚Â¿Necesitas ayuda? EscrÃƒÆ’Ã‚Â­benos por WhatsApp.</div>
                 <a
                   href={supportWhatsAppLink}
                   target="_blank"
@@ -1666,7 +1666,7 @@ const handleCancelProfileEdit = () => {
                 style={{ padding: 10, borderRadius: 8, border: "1px solid #e2e8f0" }}
                 required
               >
-                <option value="">{/* watermark */}Escoja la categorÃƒÂ­a</option>
+                <option value="">{/* watermark */}Escoja la categorÃƒÆ’Ã‚Â­a</option>
                 {(formTipo === "ingreso" ? ingresoCats : formTipo === "gasto" ? gastoCats : [...gastoCats, ...ingresoCats]).map((c) => (
                   <option key={c} value={c}>
                     {c}
@@ -1686,17 +1686,17 @@ const handleCancelProfileEdit = () => {
                 required
               />
 
-              {/* Voucher - botÃƒÂ³n funcional en espaÃƒÂ±ol */}
+              {/* Voucher - botÃƒÆ’Ã‚Â³n funcional en espaÃƒÆ’Ã‚Â±ol */}
               <div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
                 <button
                   type="button"
                   onClick={() => voucherInputRef.current && voucherInputRef.current.click()}
                   style={{ padding: "8px 12px", borderRadius: 8 }}
                 >
-                  Ã°Å¸â€œÅ½ Adjuntar voucher o recibo
+                  ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â½ Adjuntar voucher o recibo
                 </button>
                 <div style={{ color: "#64748b", fontSize: 14 }}>
-                  {formVoucher ? formVoucher.name : "NingÃƒÂºn archivo seleccionado"}
+                  {formVoucher ? formVoucher.name : "NingÃƒÆ’Ã‚Âºn archivo seleccionado"}
                 </div>
                 <input
                   ref={voucherInputRef}
@@ -1715,7 +1715,7 @@ const handleCancelProfileEdit = () => {
               {/* Descripcion */}
               <input
                 type="text"
-                placeholder="DescripciÃƒÂ³n"
+                placeholder="DescripciÃƒÆ’Ã‚Â³n"
                 value={formDescripcion}
                 onChange={(e) => setFormDescripcion(e.target.value)}
                 style={{ padding: 10, borderRadius: 8, border: "1px solid #e2e8f0" }}
@@ -1756,7 +1756,7 @@ const handleCancelProfileEdit = () => {
               <h3>Estado de Resultados</h3>
 
               {monthKeys.length === 0 ? (
-                <p>AÃƒÂºn no hay registros.</p>
+                <p>AÃƒÆ’Ã‚Âºn no hay registros.</p>
               ) : (
                 <div style={{ overflowX: "auto" }}>
                   <table style={{ width: "100%", borderCollapse: "collapse", marginTop: 20,
@@ -1792,10 +1792,10 @@ const handleCancelProfileEdit = () => {
                             <td style={{ padding: 8, borderBottom: "1px dashed #e6edf3", textAlign: "left" }}>
                               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                 <div>
-                                  <div style={{ fontWeight: 600 }}>{it.categoria} {it.descripcion ? `Ã¢â‚¬â€ ${it.descripcion}` : ""}</div>
+                                  <div style={{ fontWeight: 600 }}>{it.categoria} {it.descripcion ? `ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ${it.descripcion}` : ""}</div>
                                   {it.voucher && (
                                     <div style={{ fontSize: 13, color: "#2563eb" }}>
-                                      <a href={it.voucher.url} target="_blank" rel="noreferrer">Ã°Å¸â€œÅ½ {it.voucher.name}</a>
+                                      <a href={it.voucher.url} target="_blank" rel="noreferrer">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â½ {it.voucher.name}</a>
                                     </div>
                                   )}
                                 </div>
@@ -1867,10 +1867,10 @@ const handleCancelProfileEdit = () => {
                             <td style={{ padding: 8, borderBottom: "1px dashed #e6edf3", textAlign: "left" }}>
                               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                                 <div>
-                                  <div style={{ fontWeight: 600 }}>{it.categoria} {it.descripcion ? `Ã¢â‚¬â€ ${it.descripcion}` : ""}</div>
+                                  <div style={{ fontWeight: 600 }}>{it.categoria} {it.descripcion ? `ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â ${it.descripcion}` : ""}</div>
                                   {it.voucher && (
                                     <div style={{ fontSize: 13, color: "#2563eb" }}>
-                                      <a href={it.voucher.url} target="_blank" rel="noreferrer">Ã°Å¸â€œÅ½ {it.voucher.name}</a>
+                                      <a href={it.voucher.url} target="_blank" rel="noreferrer">ÃƒÂ°Ã…Â¸Ã¢â‚¬Å“Ã…Â½ {it.voucher.name}</a>
                                     </div>
                                   )}
                                 </div>
@@ -1963,19 +1963,19 @@ const handleCancelProfileEdit = () => {
 
       {/* 1. Pie de Ingresos */}
       <div className="chart-box">
-        <h3 style={{ marginBottom: 8 }}>DistribuciÃƒÂ³n de ingresos este mes (categorÃƒÂ­as)</h3>
+        <h3 style={{ marginBottom: 8 }}>DistribuciÃƒÆ’Ã‚Â³n de ingresos este mes (categorÃƒÆ’Ã‚Â­as)</h3>
         <Pie data={pieIngresos} />
       </div>
 
       {/* 2. Pie de Gastos */}
       <div className="chart-box">
-        <h3 style={{ marginBottom: 8 }}>DistribuciÃƒÂ³n de gastos este mes (categorÃƒÂ­as)</h3>
+        <h3 style={{ marginBottom: 8 }}>DistribuciÃƒÆ’Ã‚Â³n de gastos este mes (categorÃƒÆ’Ã‚Â­as)</h3>
         <Pie data={pieGastos} />
       </div>
 
       {/* 3. Bar vertical */}
       <div className="chart-box">
-        <h3 style={{ marginBottom: 8 }}>Gasto actual del mes (categorÃƒÂ­a)</h3>
+        <h3 style={{ marginBottom: 8 }}>Gasto actual del mes (categorÃƒÆ’Ã‚Â­a)</h3>
         {barThisMonth.labels && barThisMonth.labels.length > 0 ? (
           <Bar
             data={barThisMonth}
@@ -1999,7 +1999,7 @@ const handleCancelProfileEdit = () => {
         <h3 style={{ marginBottom: 8 }}>Tendencia mensual</h3>
         <Line data={chartLineData} />
       </div>
-    </div> {/* Ã¢â€ Â ESTE CIERRE FALTABA */}
+    </div> {/* ÃƒÂ¢Ã¢â‚¬Â Ã‚Â ESTE CIERRE FALTABA */}
   </div>
 )}
       {/* Floating assistant - always available */}
@@ -2008,6 +2008,7 @@ const handleCancelProfileEdit = () => {
     </div>
   );
 }
+
 
 
 
