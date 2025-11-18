@@ -1018,7 +1018,7 @@ const handleCancelProfileEdit = () => {
           )}
         </form>
         <div style={{ marginTop: 12, fontSize: 14, color: "#475569" }}>
-          Ã‚Â¿No tienes una cuenta?{" "}
+          Ã‚Â¿\u00BFA\u00FAn no tienes una cuenta?{" "}
           <button
             type="button"
             onClick={handleRegisterToggle}
@@ -2008,6 +2008,7 @@ const handleCancelProfileEdit = () => {
     </div>
   );
 }
+
 
 
 
