@@ -1,4 +1,4 @@
-﻿// src/App.js
+// src/App.js
 import { db, auth, googleProvider, storage } from "./firebase";
 import {
   collection,
@@ -672,7 +672,7 @@ export default function App() {
   const handleLogin = async (e) => {
     e?.preventDefault();
     try {
-      // Configurar persistencia segÃƒÆ’Ã‚Âºn "RecuÃƒÆ’Ã‚Â©rdame"
+      // Configurar persistencia segÃƒÆ’Ã‚Âºn "Recuérdame
       await setPersistence(auth, rememberMe ? browserLocalPersistence : browserSessionPersistence);
 
       const u = await signInWithEmailAndPassword(auth, email, password);
@@ -680,7 +680,7 @@ export default function App() {
       setUser(u.user);
       setLoginError("");
 
-      // Guardar preferencia/email si recuerdame
+      // Guardar preferencia/email si Recuérdame
       if (rememberMe) {
         localStorage.setItem("planifica_remember", "1");
         localStorage.setItem("planifica_email", email);
@@ -694,7 +694,7 @@ export default function App() {
       setTimeout(() => setShowSplash(false), 3000);
       // no tocamos name/nameCommitted aquÃƒÆ’Ã‚Â­ (puede que ya lo tengan)
     } catch (err) {
-      setLoginError("Usuario o contraseÃƒÆ’Ã‚Â±a incorrectos");
+      setLoginError("Usuario o contraseña incorrectos");
     }
   };
 
@@ -740,7 +740,7 @@ const handleRegisterToggle = () => {
 const handleRegister = async (e) => {
   e?.preventDefault();
   if (!registerName.trim() || !registerEmail.trim() || !registerPassword.trim()) {
-    setRegisterError("Completa tu nombre, correo real y contraseÃƒÆ’Ã‚Â±a.");
+    setRegisterError("Completa tu nombre, correo real y contraseña.");
     return;
   }
   setRegisterLoading(true);
@@ -967,7 +967,7 @@ const handleCancelProfileEdit = () => {
         >
           <input
             type="email"
-            placeholder="Correo electrÃƒÂ³nico"
+            placeholder="Correo electrónico"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -975,7 +975,7 @@ const handleCancelProfileEdit = () => {
           />
           <input
             type="password"
-            placeholder="ContraseÃƒÂ±a"
+            placeholder="Contraseña"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -988,11 +988,11 @@ const handleCancelProfileEdit = () => {
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
             />
-            RecuÃƒÂ©rdame
+            Recuérdame
           </label>
 
           {loginError && <div style={{ color: "red" }}>{loginError}</div>}
-          <button type="submit">Iniciar sesiÃƒÂ³n</button>
+          <button type="submit">Iniciar sesión</button>
           <button
             type="button"
             onClick={handleGoogleLogin}
@@ -1005,11 +1005,11 @@ const handleCancelProfileEdit = () => {
             onClick={() => setShowForgotHelp((prev) => !prev)}
             style={{ background: "#f8fafc", color: "#0f172a" }}
           >
-            Ã‚Â¿Olvidaste tu contraseÃƒÂ±a?
+            ¿Olvidaste tu contraseña?
           </button>
           {showForgotHelp && (
             <div style={{ fontSize: 13, color: "#475569" }}>
-              EscrÃƒÂ­benos por WhatsApp al{" "}
+              Escríbenos por WhatsApp al{" "}
               <a href={supportWhatsAppLink} style={{ color: "#1d4ed8", fontWeight: 600 }} target="_blank" rel="noreferrer">
                 +51 937 698 884
               </a>{" "}
@@ -1018,13 +1018,13 @@ const handleCancelProfileEdit = () => {
           )}
         </form>
         <div style={{ marginTop: 12, fontSize: 14, color: "#475569" }}>
-          Ã‚Â¿\u00BFA\u00FAn no tienes una cuenta?{" "}
+          ¿No tienes una cuenta?{" "}
           <button
             type="button"
             onClick={handleRegisterToggle}
             style={{ color: "#1d4ed8", textDecoration: "underline", background: "transparent" }}
           >
-            RegÃƒÂ­strate aquÃƒÂ­
+            Regístrate aquí
           </button>
         </div>
         {registerMode && (
@@ -1055,18 +1055,18 @@ const handleCancelProfileEdit = () => {
               type="email"
               value={registerEmail}
               onChange={(e) => setRegisterEmail(e.target.value)}
-              placeholder="Correo electrÃƒÂ³nico real"
+              placeholder="Correo electrónico real"
               style={{ width: "100%", padding: 10, borderRadius: 8, border: "1px solid #e2e8f0" }}
             />
             <input
               type="password"
               value={registerPassword}
               onChange={(e) => setRegisterPassword(e.target.value)}
-              placeholder="ContraseÃƒÂ±a"
+              placeholder="Contraseña"
               style={{ width: "100%", padding: 10, borderRadius: 8, border: "1px solid #e2e8f0" }}
             />
             <div style={{ fontSize: 13, color: "#475569" }}>
-              Usa un correo real y luego activa tu suscripciÃƒÂ³n para ingresar.
+              Usa un correo real y luego activa tu suscripción para ingresar.
             </div>
             {registerError && <div style={{ color: "#ef4444", fontSize: 14 }}>{registerError}</div>}
             {registerMessage && <div style={{ color: "#16a34a", fontSize: 14 }}>{registerMessage}</div>}
@@ -1077,7 +1077,9 @@ const handleCancelProfileEdit = () => {
         )}
       </div>
     );
-  }// 2) SPLASH (3s)
+  }
+
+// 2) SPLASH (3s)
   if (showSplash) {
     return (
       <div className="container" style={{ paddingBottom: 140 }}>
@@ -1093,7 +1095,7 @@ const handleCancelProfileEdit = () => {
             animation: "fadeIn 0.35s ease",
           }}
         >
-          <div style={{ fontSize: 20, fontWeight: 700, color: "#0f172a" }}>Recuerda que eres lo que planificas ÃƒÂ°Ã…Â¸Ã¢â‚¬â„¢Ã…Â¡</div>
+          <div style={{ fontSize: 20, fontWeight: 700, color: "#0f172a" }}>Recuérdame</div>
         </div>
       </div>
     );
